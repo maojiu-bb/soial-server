@@ -3,8 +3,11 @@ import router from './router'
 
 const app = express()
 
-app.use('/api', router)
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.listen(3000, () => {
-  console.log('Server is running at http://localhost:3000')
+app.use(router)
+
+app.listen(3006, () => {
+  console.log('Server is running at http://localhost:3006')
 })
