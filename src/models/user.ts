@@ -12,6 +12,12 @@ interface User {
   address: string
   birthday: string
   backgroundImage: string
+  ownPosts: string[]
+  likePosts: string[]
+  starPosts: string[]
+  friends: string[]
+  fans: string[]
+  concerns: string[]
 }
 
 const userSchema = new Schema<User & Document>({
@@ -24,7 +30,13 @@ const userSchema = new Schema<User & Document>({
   introduction: { type: String },
   address: { type: String },
   birthday: { type: String },
-  backgroundImage: { type: String }
+  backgroundImage: { type: String },
+  ownPosts: [{ type: String }],
+  likePosts: [{ type: String }],
+  starPosts: [{ type: String }],
+  friends: [{ type: String }],
+  fans: [{ type: String }],
+  concerns: [{ type: String }]
 })
 
 const User = db.model<User & Document>('User', userSchema)
