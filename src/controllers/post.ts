@@ -5,7 +5,6 @@ import { postUniqueId } from '../config/uuid'
 interface AddPost {
   userid: string | number
   username: string
-  date: string
   avatar: string
   content: string
   images: { imgid: string | number; imgUrl: string }[]
@@ -39,7 +38,11 @@ export const addPostModel = async (postInfo: AddPost) => {
     if (!user) {
       throw new Error('User not found')
     }
-    const res = await new Post({ postid: postUniqueId(), ...postInfo }).save()
+    const res = await new Post({
+      postid: postUniqueId(),
+      date: Date.now(),
+      ...postInfo
+    }).save()
     if (!res) {
       throw new Error('Error saving post')
     }
@@ -96,6 +99,7 @@ export const getListModel = async ({ page, userid }: GetPost) => {
     const hides = user.hides
     const skipcount = (Number(page) - 1) * 10
     const res = Post.find({ postid: { $nin: hides } })
+      .sort({ date: -1 })
       .skip(skipcount)
       .limit(10)
       .exec()

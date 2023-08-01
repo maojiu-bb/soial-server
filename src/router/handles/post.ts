@@ -24,13 +24,12 @@ import {
 // 发布帖子
 export const handleAdd = async (req: Request, res: Response) => {
   const { userid, username, date, avatar, content, images } = req.body
-  if (!userid || !username || !date || !avatar || (!content && !images)) {
+  if (!userid || !username || !avatar || (!content && !images)) {
     parameterRequest(res)
   } else {
     const result = await addPostModel({
       userid,
       username,
-      date,
       avatar,
       content,
       images

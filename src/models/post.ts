@@ -10,7 +10,7 @@ interface Post {
   postid: number | string
   userid: number | string
   username: string
-  date: string
+  date: string | number
   avatar: string
   content: string
   images: Image[]
@@ -26,7 +26,7 @@ const postSchema = new Schema<Post & Document>({
   postid: { type: Schema.Types.Mixed, required: true },
   userid: { type: Schema.Types.Mixed, required: true },
   username: { type: String, required: true },
-  date: { type: String, required: true },
+  date: { type: Schema.Types.Mixed, required: true },
   avatar: { type: String, required: true },
   content: { type: String, default: '' },
   images: [
