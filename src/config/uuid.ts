@@ -9,3 +9,8 @@ export const postUniqueId = () => {
   const id = uuidv4().replace(/-/g, '').substring(0, 9)
   return `p_${id}`
 }
+
+export const historyId = () => {
+  const id = uuidv4().replace(/-/g, '').substring(0, 9)
+  return `h_${id}`
+}
