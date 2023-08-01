@@ -18,7 +18,12 @@ import {
   updateStarModel,
   updateViewModel,
   reportModel,
-  reportListModel
+  reportListModel,
+  ownListModel,
+  likeListModel,
+  starListModel,
+  cancelLikeModel,
+  cancelStarModel
 } from '../../controllers/post'
 
 // 发布帖子
@@ -146,11 +151,11 @@ export const handleUpdateView = async (req: Request, res: Response) => {
 
 // 喜欢
 export const handleUpdateLike = async (req: Request, res: Response) => {
-  const { postid } = req.body
-  if (!postid) {
+  const { postid, userid } = req.body
+  if (!postid || !userid) {
     parameterRequest(res)
   } else {
-    const result = await updateLikeModel(postid)
+    const result = await updateLikeModel({ postid, userid })
     if (result) {
       successRequest(res, '增加喜欢')
     } else {
@@ -161,11 +166,11 @@ export const handleUpdateLike = async (req: Request, res: Response) => {
 
 // 收藏
 export const handleUpdateStar = async (req: Request, res: Response) => {
-  const { postid } = req.body
-  if (!postid) {
+  const { postid, userid } = req.body
+  if (!postid || !userid) {
     parameterRequest(res)
   } else {
-    const result = await updateStarModel(postid)
+    const result = await updateStarModel({ postid, userid })
     if (result) {
       successRequest(res, '增加收藏')
     } else {
@@ -225,6 +230,81 @@ export const handleDetail = async (req: Request, res: Response) => {
       successRequest(res, '获取数据', { detail: result })
     } else {
       failRequest(res, '获取数据')
+    }
+  }
+}
+
+// 获取我的帖子列表
+export const handleOwn = async (req: Request, res: Response) => {
+  const { userid } = req.query
+  if (!userid) {
+    parameterRequest(res)
+  } else {
+    const result = await ownListModel(userid as string)
+    if (result) {
+      successRequest(res, '获取数据', { ownList: result })
+    } else {
+      failRequest(res, '获取数据')
+    }
+  }
+}
+
+// 获取喜欢帖子列表
+export const handleLike = async (req: Request, res: Response) => {
+  const { userid } = req.query
+  if (!userid) {
+    parameterRequest(res)
+  } else {
+    const result = await likeListModel(userid as string)
+    if (result) {
+      successRequest(res, '获取数据', { likeList: result })
+    } else {
+      failRequest(res, '获取数据')
+    }
+  }
+}
+
+// 获取收藏帖子列表
+export const handleStar = async (req: Request, res: Response) => {
+  const { userid } = req.query
+  if (!userid) {
+    parameterRequest(res)
+  } else {
+    const result = await starListModel(userid as string)
+    if (result) {
+      successRequest(res, '获取数据', { starList: result })
+    } else {
+      failRequest(res, '获取数据')
+    }
+  }
+}
+
+// 取消喜欢
+export const handleCancelLike = async (req: Request, res: Response) => {
+  const { userid, postid } = req.body
+  if (!userid || !postid) {
+    parameterRequest(res)
+  } else {
+    const result = await cancelLikeModel({ userid, postid })
+    if (result) {
+      successRequest(res, '取消喜欢')
+    } else {
+      failRequest(res, '取消喜欢')
+    }
+  }
+}
+
+// 取消收藏
+export const handleCancelStar = async (req: Request, res: Response) => {
+  const { userid, postid } = req.body
+  if (!userid || !postid) {
+    parameterRequest(res)
+  } else {
+    const result = await cancelStarModel({ userid, postid })
+    if (result) {
+      successRequest(res, '取消收藏')
+    } else {
+      failRequest(res, '取消收藏')
     }
   }
 }

@@ -13,7 +13,12 @@ import {
   handleHide,
   handleDetail,
   handleReport,
-  handleReportList
+  handleReportList,
+  handleOwn,
+  handleLike,
+  handleStar,
+  handleCancelLike,
+  handleCancelStar
 } from '../handles/post'
 
 const postRouter = express.Router()
@@ -59,5 +64,20 @@ postRouter.get('/reportList', handleReportList)
 
 // 获取帖子详情
 postRouter.get('/detail', handleDetail)
+
+// 获取我的帖子列表
+postRouter.get('/own', handleOwn)
+
+// 获取喜欢帖子列表
+postRouter.get('/like', handleLike)
+
+// 获取收藏的帖子列表
+postRouter.get('/star', handleStar)
+
+// 取消喜欢
+postRouter.put('/cancelLike', handleCancelLike)
+
+// 取消收藏
+postRouter.put('/cancelStar', handleCancelStar)
 
 export default postRouter
