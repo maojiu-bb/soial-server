@@ -18,6 +18,7 @@ interface User {
   friends: string[]
   fans: string[]
   concerns: string[]
+  hides: string[]
 }
 
 const userSchema = new Schema<User & Document>({
@@ -36,7 +37,8 @@ const userSchema = new Schema<User & Document>({
   starPosts: [{ type: String }],
   friends: [{ type: String }],
   fans: [{ type: String }],
-  concerns: [{ type: String }]
+  concerns: [{ type: String }],
+  hides: [{ type: String }]
 })
 
 const User = db.model<User & Document>('User', userSchema)

@@ -26,12 +26,11 @@ import {
 
 // 注册
 export const handleRegister = async (req: Request, res: Response) => {
-  const { userid, username, password, email } = req.body
-  if (!userid || !username || !password || !email) {
+  const { username, password, email } = req.body
+  if (!username || !password || !email) {
     return parameterRequest(res)
   } else {
     const result = await registerModel({
-      userid,
       username,
       password,
       email

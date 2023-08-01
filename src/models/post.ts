@@ -18,6 +18,8 @@ interface Post {
   like: number
   star: number
   comment: number
+  searched: number
+  isReport: number
 }
 
 const postSchema = new Schema<Post & Document>({
@@ -36,7 +38,9 @@ const postSchema = new Schema<Post & Document>({
   view: { type: Number, default: 0 },
   like: { type: Number, default: 0 },
   star: { type: Number, default: 0 },
-  comment: { type: Number, default: 0 }
+  comment: { type: Number, default: 0 },
+  searched: { type: Number, default: 0 },
+  isReport: { type: Number, default: 0 }
 })
 
 const Post = db.model<Post & Document>('Post', postSchema)

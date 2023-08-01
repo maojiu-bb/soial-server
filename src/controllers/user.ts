@@ -1,8 +1,8 @@
 import User from '../models/user'
 import bcrypt from 'bcrypt'
+import { userUniqueId } from '../config/uuid'
 
 interface RegisterUserInfo {
-  userid: number | string
   username: string
   password: string
   email: string
@@ -80,7 +80,7 @@ type GetUserInfo = number | string
 export const registerModel = async (userInfo: RegisterUserInfo) => {
   const bcryptPassword = await bcrypt.hash(userInfo.password, 10)
   const insertUserInfo = {
-    userid: userInfo.userid,
+    userid: userUniqueId(),
     username: userInfo.username,
     password: bcryptPassword,
     email: userInfo.email,

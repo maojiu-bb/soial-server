@@ -12,7 +12,7 @@ export const successRequest = (res: Response, msg: string, data = {}) => {
   return res.status(200).send({
     code: 200,
     msg: `${msg}成功！`,
-    data: data
+    data
   })
 }
 
