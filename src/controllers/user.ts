@@ -37,7 +37,10 @@ interface UpdateEmailInfo {
   newEmail: string
 }
 
-type CancelAccountInfo = number | string
+type CancelAccountInfo = {
+  userid: string | number
+  password: string
+}
 
 interface UpdateAvatarInfo {
   userid: number | string
@@ -239,11 +242,22 @@ export const updateEmailModel = async ({
 }
 
 // 注销账号
-export const cancelAccountModel = async (userid: CancelAccountInfo) => {
+export const cancelAccountModel = async ({
+  userid,
+  password
+}: CancelAccountInfo) => {
   try {
-    const res = await User.findOneAndRemove({ userid: userid }).exec()
-    if (!res) {
+    const user = await User.findOne({ userid: userid }).exec()
+    if (!user) {
       throw new Error('Cannot find user')
+    }
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
+      throw new Error('Cannot compare password')
+    }
+    const res = await User.deleteOne({ userid: userid })
+    if (!res) {
+      throw new Error('Cannot delete user')
     }
     return res
   } catch (error) {

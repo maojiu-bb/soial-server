@@ -52,7 +52,8 @@ export const handleLoginUser = async (req: Request, res: Response) => {
     const result = await loginUserModel({ username, password })
     if (result) {
       successRequest(res, '登录', {
-        token: 'Bearer ' + setToken({ username, password })
+        token: 'Bearer ' + setToken({ username, password }),
+        userid: result.userid
       })
     } else {
       failRequest(res, '登录')
@@ -69,7 +70,8 @@ export const handleLoginEmail = async (req: Request, res: Response) => {
     const result = await loginEmailModel({ email, password })
     if (result) {
       successRequest(res, '登录', {
-        token: 'Bearer ' + setToken({ email, password })
+        token: 'Bearer ' + setToken({ email, password }),
+        userid: result.userid
       })
     } else {
       failRequest(res, '登录')
@@ -143,11 +145,11 @@ export const handleUpdateEmail = async (req: Request, res: Response) => {
 
 // 注销账号
 export const handleCancelAccount = async (req: Request, res: Response) => {
-  const { userid } = req.body
-  if (!userid) {
+  const { userid, password } = req.body
+  if (!userid || !password) {
     parameterRequest(res)
   } else {
-    const result = await cancelAccountModel(userid)
+    const result = await cancelAccountModel({ userid, password })
     if (result) {
       successRequest(res, '注销账号')
     } else {
